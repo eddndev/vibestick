@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  /* Scientific Premium Palette */
+  
+  /* Dark Mode (Default/Void) */
+  --color-void: #04060F;
+  --color-surface: #0F1221;
+  
+  /* Accents */
+  --color-primary: #A858F7;
+  --color-primary-dark: #7E22CE;
+  --color-secondary: #6366F1;
+  --color-secondary-dark: #4F46E5;
+  
+  /* Text */
+  --color-body: #F1F5F9;
+  --color-body-dark: #0F172A;
+  --color-muted: #94A3B8;
+  --color-muted-dark: #64748B;
+
+  /* Fonts */
+  --font-sans: 'Inter', 'Roboto', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    @apply bg-void text-body font-sans antialiased;
+  }
+}
