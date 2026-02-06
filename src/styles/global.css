@@ -1,23 +1,65 @@
 @import "tailwindcss";
 
+/* 
+  Define the base values as CSS variables in :root
+  This allows them to switch based on the .dark selector 
+*/
+:root {
+  /* Light Mode (Default) */
+  --void-val: #FFFFFF;
+  /* Pure White */
+  --surface-val: #F8FAFC;
+  /* Slate 50 */
+
+  --primary-val: #7E22CE;
+  /* Darker Purple */
+  --primary-dark-val: #581c87;
+
+  --secondary-val: #4F46E5;
+  /* Darker Indigo */
+  --secondary-dark-val: #3730a3;
+
+  --body-val: #0F172A;
+  /* Slate 900 */
+  --muted-val: #64748B;
+  /* Slate 500 */
+}
+
+:root.dark {
+  /* Scientific Premium Dark Mode */
+  --void-val: #04060F;
+  /* Deepest Navy/Black */
+  --surface-val: #0F1221;
+  /* Card background */
+
+  --primary-val: #A858F7;
+  /* Vibrant Purple */
+  --primary-dark-val: #7E22CE;
+
+  --secondary-val: #6366F1;
+  /* Indigo/Blue */
+  --secondary-dark-val: #4F46E5;
+
+  --body-val: #F1F5F9;
+  /* Off-white */
+  --muted-val: #94A3B8;
+  /* Slate gray */
+}
+
 @theme {
-  /* Scientific Premium Palette */
-  
-  /* Dark Mode (Default/Void) */
-  --color-void: #04060F;
-  --color-surface: #0F1221;
-  
-  /* Accents */
-  --color-primary: #A858F7;
-  --color-primary-dark: #7E22CE;
-  --color-secondary: #6366F1;
-  --color-secondary-dark: #4F46E5;
-  
-  /* Text */
-  --color-body: #F1F5F9;
-  --color-body-dark: #0F172A;
-  --color-muted: #94A3B8;
-  --color-muted-dark: #64748B;
+  /* Map Tailwind/Theme tokens to the dynamic CSS variables */
+
+  --color-void: var(--void-val);
+  --color-surface: var(--surface-val);
+
+  --color-primary: var(--primary-val);
+  --color-primary-dark: var(--primary-dark-val);
+
+  --color-secondary: var(--secondary-val);
+  --color-secondary-dark: var(--secondary-dark-val);
+
+  --color-body: var(--body-val);
+  --color-muted: var(--muted-val);
 
   /* Fonts */
   --font-sans: 'Inter', 'Roboto', ui-sans-serif, system-ui, sans-serif;
@@ -25,6 +67,8 @@
 
 /* Base Styles */
 @layer base {
+
+  html,
   body {
     @apply bg-void text-body font-sans antialiased;
   }
