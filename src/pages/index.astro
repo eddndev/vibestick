@@ -1,24 +1,45 @@
 ---
-import '../styles/global.css';
+import Layout from "../layouts/Layout.astro";
 ---
 
-<html lang="es">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Vibe Stick - Aire Puro</title>
-	</head>
-	<body class="bg-void text-body min-h-screen flex items-center justify-center">
-		<main class="text-center">
-			<h1 class="text-4xl font-bold tracking-tight mb-4">
-				<span class="text-primary">Vibe</span> Stick
+<Layout title="Vibe Stick - Aire Puro">
+	<main
+		class="w-full min-h-screen flex flex-col items-center justify-center p-4"
+	>
+		<div class="text-center relative z-10">
+			<!-- Glow Effect -->
+			<div
+				class="absolute -top-20 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/20 blur-[100px] rounded-full pointer-events-none"
+			>
+			</div>
+
+			<h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
+				<span
+					class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary animate-pulse-slow"
+					>Vibe</span
+				> Stick
 			</h1>
-			<p class="text-muted text-lg max-w-md mx-auto">
-				Tecnología de nanopartículas de TiO₂ que elimina contaminantes.
+
+			<p
+				class="text-muted text-lg md:text-xl max-w-2xl mx-auto leading-relaxed"
+			>
+				Transforma tu entorno con tecnología de nanopartículas de <span
+					class="font-semibold text-primary">TiO₂</span
+				> que elimina contaminantes del aire mediante síntesis fotocatalítica.
 			</p>
-		</main>
-	</body>
-</html>
+
+			<div class="mt-8 flex gap-4 justify-center">
+				<button
+					class="px-6 py-3 rounded-full bg-primary text-white font-semibold hover:bg-primary-dark transition-colors shadow-lg shadow-primary/20 cursor-pointer"
+				>
+					Ver Productos
+				</button>
+				<button
+					class="px-6 py-3 rounded-full border border-white/10 bg-surface/50 backdrop-blur-sm hover:bg-surface text-body transition-colors cursor-pointer"
+				>
+					Cómo funciona
+				</button>
+			</div>
+		</div>
+	</main>
+</Layout>
