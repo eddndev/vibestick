@@ -164,6 +164,73 @@ export const initStickerScene = (containerId: string) => {
             }, 0);
 
 
+            // --- PARTICLES SETUP (Lab Section) ---
+            // Subtle "magic dust" that appears when synthesized
+            const particlesGeometry = new THREE.BufferGeometry();
+            const particleCount = 300;
+            const posArray = new Float32Array(particleCount * 3);
+
+            for (let i = 0; i < particleCount * 3; i++) {
+                // Random spread around the center
+                posArray[i] = (Math.random() - 0.5) * 14;
+            }
+
+            particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+            const particlesMaterial = new THREE.PointsMaterial({
+                size: 0.04,
+                color: 0x22d3ee, // Cyan-ish
+                transparent: true,
+                opacity: 0,
+                blending: THREE.AdditiveBlending,
+            });
+
+            const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+            labGroup.add(particlesMesh);
+
+
+            // --- LAB ANIMATION (Info -> Lab Section) ---
+            const labTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#lab-section",
+                    start: "top bottom",
+                    end: "center center",
+                    scrub: 1.5,
+                    immediateRender: false,
+                }
+            });
+
+            // Move to Right
+            // Also move closer (z: 2.5) to compensate for perspective size reduction
+            labTl.to(labGroup.position, {
+                x: 7.5,
+                z: 2.5,
+                y: -2,
+                ease: "power2.inOut"
+            }, 0);
+
+            // Rotate comfortably - Face Front (as in start)
+            labTl.to(labGroup.rotation, {
+                y: THREE.MathUtils.degToRad(-45), // Cancel scrollGroup's 30deg to return to front
+                x: THREE.MathUtils.degToRad(0),  // Slight tilt forward for better visibility
+                z: THREE.MathUtils.degToRad(-10),   // Subtle angle
+                ease: "power2.inOut"
+            }, 0);
+
+            // Particles Reveal
+            labTl.to(particlesMaterial, {
+                opacity: 0.8,
+                duration: 0.5,
+                ease: "power2.in"
+            }, ">-0.5");
+
+            // Rotate particles
+            labTl.to(particlesMesh.rotation, {
+                y: 2,
+                ease: "none"
+            }, 0);
+
+
 
         },
         undefined,
