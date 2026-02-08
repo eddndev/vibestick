@@ -31,7 +31,7 @@ const { title } = Astro.props;
         />
     </head>
     <body
-        class="bg-void text-body overflow-x-hidden selection:bg-primary selection:text-white"
+        class="bg-black text-body overflow-x-hidden selection:bg-primary selection:text-white"
     >
         <Header />
 
@@ -47,7 +47,7 @@ const { title } = Astro.props;
 
         <!-- Global Noise Texture (Background) -->
         <div
-            class="fixed inset-0 z-0 pointer-events-none opacity-[0.4] mix-blend-overlay"
+            class="fixed inset-0 z-0 pointer-events-none opacity-[0.8] mix-blend-overlay"
         >
             <div
                 class="absolute inset-0 bg-repeat w-full h-full animate-noise"
