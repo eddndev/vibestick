@@ -6,79 +6,11 @@
     id="hero"
     class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
 >
-    <!-- Background Elements (optional, can be kept for hero specific styling or removed) -->
-    <div class="absolute inset-0 z-0 bg-void/10">
-        <!-- Reduced opacity to see canvas if needed, or remove bg-void to be transparent -->
-        <div
-            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[120px] rounded-full animate-pulse-slow"
-        >
-        </div>
-    </div>
-
     <!-- 3D Scene Container (Fixed Background) -->
     <div
         id="canvas-container"
         class="fixed inset-0 z-0 w-full h-full pointer-events-none"
     >
-    </div>
-
-    <!-- Content -->
-    <div
-        class="relative z-20 text-center px-4 max-w-4xl mx-auto flex flex-col items-center gap-6"
-    >
-        <h1
-            class="text-6xl md:text-8xl font-bold tracking-tighter leading-tight opacity-0 translate-y-10 hero-text"
-        >
-            <span
-                class="text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50"
-                >Stickers</span
-            >
-            <br />
-            <span
-                class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
-                >que respiran</span
-            >
-        </h1>
-
-        <p
-            class="text-xl md:text-2xl text-muted max-w-2xl opacity-0 translate-y-10 hero-text"
-        >
-            Tecnología fotocatalítica que transforma el aire urbano. <br />
-            <span class="text-primary font-semibold">Estilo que purifica.</span>
-        </p>
-
-        <div class="flex gap-4 mt-4 opacity-0 translate-y-10 hero-text">
-            <a
-                href="#products"
-                class="px-8 py-4 rounded-full bg-white text-primary font-bold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all shadow-xl shadow-white/10"
-            >
-                Ver Colección
-            </a>
-            <a
-                href="#technology"
-                class="px-8 py-4 rounded-full border border-white/20 hover:bg-white/5 backdrop-blur-md text-white font-medium text-lg transition-all"
-            >
-                La Tecnología
-            </a>
-        </div>
-    </div>
-
-    <!-- Scroll Indicator -->
-    <div
-        class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20 opacity-0 hero-text"
-    >
-        <svg
-            class="w-6 h-6 text-muted"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-        </svg>
     </div>
 </section>
 
@@ -221,6 +153,7 @@
             canvas.height = 32;
             const context = canvas.getContext("2d");
             if (context) {
+                // Make it more diffuse and cloud-like (less dense core)
                 const gradient = context.createRadialGradient(
                     16,
                     16,
@@ -229,8 +162,8 @@
                     16,
                     16,
                 );
-                gradient.addColorStop(0, "rgba(100, 100, 100, 0.8)"); // Dark grey center
-                gradient.addColorStop(1, "rgba(0, 0, 0, 0)"); // Transparent edge
+                gradient.addColorStop(0, "rgba(150, 150, 150, 0.4)"); // Softer, more transparent center
+                gradient.addColorStop(1, "rgba(0, 0, 0, 0)"); // Fade out completely
                 context.fillStyle = gradient;
                 context.fillRect(0, 0, 32, 32);
             }
@@ -267,11 +200,11 @@
 
         const particlesMaterial = new THREE.PointsMaterial({
             color: 0x888888,
-            size: 0.8,
+            size: 2.5, // Increased size for "cloudier" smog
             map: getSmogTexture(),
             transparent: true,
-            opacity: 0.8,
-            depthWrite: false, // Avoid z-fighting
+            opacity: 0.6, // Lower base opacity
+            depthWrite: false,
             blending: THREE.NormalBlending,
         });
 
@@ -343,11 +276,14 @@
             // Simpler: fade out material opacity as they get sucked in
             // Or keep opacity high until they disappear?
             // Let's fade them out as they get very close (progress > 0.8)
-            if (scrollState.progress > 0.1) {
+            if (scrollState.progress > 0) {
+                // Fade out faster: Start fading immediately and be fully transparent by 60% progress
+                // This ensures they disappear BEFORE hitting the model surface which is at progress ~0.7-1.0
+                const fadeProgress = Math.min(scrollState.progress * 1.6, 1);
                 particlesMaterial.opacity = THREE.MathUtils.lerp(
                     0.8,
                     0,
-                    scrollState.progress,
+                    fadeProgress,
                 );
             } else {
                 particlesMaterial.opacity = 0.8;
