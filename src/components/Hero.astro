@@ -126,14 +126,14 @@
         container.appendChild(renderer.domElement);
 
         // Lights
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
         scene.add(ambientLight);
 
-        const pointLight = new THREE.PointLight(0xffffff, 1);
+        const pointLight = new THREE.PointLight(0xffffff, 2);
         pointLight.position.set(5, 5, 5);
         scene.add(pointLight);
 
-        const spotLight = new THREE.SpotLight(0x7e22ce, 2); // Primary color tint
+        const spotLight = new THREE.SpotLight(0x7e22ce, 5); // Primary color tint boosted
         spotLight.position.set(-5, 5, 20); // Moved to be more frontal/top-left
         scene.add(spotLight);
 
@@ -144,7 +144,8 @@
         scene.add(rimLight);
 
         // Fill Light (Side-Front) - Softens shadows
-        const fillLight = new THREE.DirectionalLight(0xffffff, 1);
+        // Boosted intensity for better frontal visibility
+        const fillLight = new THREE.DirectionalLight(0xffffff, 4);
         fillLight.position.set(5, 0, 5);
         scene.add(fillLight);
 
@@ -155,25 +156,24 @@
         loader.load(
             "/assets/models/sticker.glb",
             (gltf: any) => {
-                const sceneModel = gltf.scene; // Use local variable sceneModel
-                model = sceneModel; // Keep reference for animation loop
+                const sceneModel = gltf.scene;
 
-                // Center the model
+                // Create a Pivot Group to handle rotation cleanly
+                const pivotGroup = new THREE.Group();
+                scene.add(pivotGroup);
+                pivotGroup.add(sceneModel);
+
+                model = pivotGroup; // Keep reference to pivot for animation loop
+
+                // Center the model relative to the pivot
                 const box = new THREE.Box3().setFromObject(sceneModel);
                 const center = box.getCenter(new THREE.Vector3());
                 sceneModel.position.sub(center);
 
-                // Orientation: Top face facing front
-                // Assuming Top is +Y, we rotate X by 90 deg to point it at Camera (+Z)
+                // Internal Orientation: Fix the "martian" look
+                // Keep the model facing front (Camera)
                 sceneModel.rotation.x = Math.PI / 2;
-
-                // Rotate -120 degrees (left) to correct texture alignment
                 sceneModel.rotation.y = THREE.MathUtils.degToRad(-120);
-
-                // Scale if necessary (adjust this based on your model size)
-                // model.scale.set(2, 2, 2);
-
-                scene.add(sceneModel);
 
                 // Initial animation pop
                 gsap.from(sceneModel.scale, {
@@ -184,20 +184,17 @@
                     ease: "elastic.out(1, 0.5)",
                 });
 
-                // Scroll Trigger placeholder (Waiting for Scrollytelling instructions)
-                // Currently keeping it pinned or just static
-                /*
-                gsap.to(sceneModel.rotation, { // Changed to sceneModel
+                // Scroll Trigger: Scene Y Rotation (Spin horizontally)
+                gsap.to(pivotGroup.rotation, {
                     scrollTrigger: {
-                        trigger: "#hero",
+                        trigger: "body", // Use body to span the whole page scroll
                         start: "top top",
-                        end: "bottom top",
+                        end: "bottom bottom",
                         scrub: 1,
                     },
-                    y: Math.PI * 2, // Disabled for now
+                    y: Math.PI * 2, // Full 360 spin around global Y axis
                     ease: "none",
                 });
-                */
             },
             undefined,
             (error: any) => {
