@@ -188,6 +188,46 @@ const { title } = Astro.props;
                 },
                 0,
             );
+
+            // --- Lab Section Background Animation ---
+            // Move hexagons to right to frame the 3D sticker
+            const labBgTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#lab-section",
+                    start: "top bottom",
+                    end: "center center",
+                    scrub: 1,
+                    immediateRender: false,
+                },
+            });
+
+            // Hex 2 (Large Outline) -> Move Right & Rotate
+            labBgTl.to(
+                ".hex-2",
+                {
+                    left: "auto",
+                    right: "20%", // Position behind the sticker
+                    xPercent: 50,
+                    rotation: 60, // Tech rotation
+                    scale: 1.2, // Pulse up
+                    ease: "power2.inOut",
+                },
+                0,
+            );
+
+            // Hex 4 (Small Outline) -> Move Right & Counter-Rotate
+            labBgTl.to(
+                ".hex-4",
+                {
+                    left: "auto",
+                    right: "20%",
+                    xPercent: 50,
+                    rotation: -60,
+                    scale: 0.8,
+                    ease: "power2.inOut",
+                },
+                0,
+            );
         </script>
     </body>
 
