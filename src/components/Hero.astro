@@ -18,20 +18,23 @@
         class="absolute top-[15vh] w-full z-10 flex flex-col items-center text-center px-4 pointer-events-auto"
     >
         <h1
+            id="hero-title"
             class="text-6xl md:text-8xl font-black tracking-tighter mb-2 uppercase"
         >
             <span
-                class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient"
+                class="bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient block"
             >
                 Vibe Stick
             </span>
         </h1>
         <p
+            id="hero-subtitle"
             class="text-xl md:text-2xl text-muted font-medium mb-8 max-w-lg uppercase"
         >
             Pega el estilo y date un respiro
         </p>
         <a
+            id="hero-cta"
             href="#technology"
             class="px-12 py-4 bg-white/10 backdrop-blur-md border border-white/10 hover:border-primary rounded-full transition-colors duration-300"
         >
@@ -44,7 +47,44 @@
 
 <script>
     import { initStickerScene } from "../scripts/sticker-scene";
+    import gsap from "gsap";
 
     // Initialize 3D Scene logic
     initStickerScene("canvas-container");
+
+    // Hero Content Animation
+    const tl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+    });
+
+    tl.from(
+        "#hero-title span",
+        {
+            y: 50,
+            opacity: 0,
+            duration: 1.5,
+            stagger: 0.1,
+        },
+        1.5,
+    ); // Start after navbar lands
+
+    tl.from(
+        "#hero-subtitle",
+        {
+            y: 20,
+            opacity: 0,
+            duration: 1,
+        },
+        "-=1.0",
+    );
+
+    tl.from(
+        "#hero-cta",
+        {
+            y: 20,
+            opacity: 0,
+            duration: 1,
+        },
+        "-=0.8",
+    );
 </script>

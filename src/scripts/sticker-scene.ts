@@ -46,7 +46,7 @@ export const initStickerScene = (containerId: string) => {
     rimLight.lookAt(0, 0, 0);
     scene.add(rimLight);
 
-    const fillLight = new THREE.DirectionalLight(0xffffff, 4);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 8);
     fillLight.position.set(5, 0, 5);
     scene.add(fillLight);
 
@@ -70,7 +70,7 @@ export const initStickerScene = (containerId: string) => {
             sceneModel.position.sub(center);
 
             // Updated Scale & Orientation
-            sceneModel.scale.set(1.8, 1.8, 1.8); // Huge scale as requested
+            sceneModel.scale.set(2.5, 2.5, 2.5); // Huge scale as requested
             sceneModel.rotation.x = Math.PI / 2;
             sceneModel.rotation.y = THREE.MathUtils.degToRad(-120);
 
@@ -114,13 +114,12 @@ export const initStickerScene = (containerId: string) => {
 
             // Float up/down
             idleTl.to(pivotGroup.position, {
-                y: "+=0.4",
+                y: "+=0.1",
             }, 0);
 
             // Gentle Sway
             idleTl.to(pivotGroup.rotation, {
-                z: "+=0.05", // Slight tilt
-                x: "+=0.05", // Slight nod
+                x: "+=0.1", // Slight nod
             }, 0);
 
 
