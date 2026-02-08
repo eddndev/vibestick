@@ -92,7 +92,7 @@ export const initStickerScene = (containerId: string) => {
 
             // 2. Spin (Z-axis) - Multiple revolutions, synced
             entranceTl.from(pivotGroup.rotation, {
-                z: -Math.PI * 6,
+                z: -Math.PI * 12,
                 duration: animDuration,
                 ease: animEase
             }, 0);
