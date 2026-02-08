@@ -77,19 +77,50 @@ export const initStickerScene = (containerId: string) => {
             // Resting Position (Bottom half)
             pivotGroup.position.y = -2.5;
 
-            // ENTRANCE ANIMATION: From TOP (y=10) to Resting (-2.5) with Z-Rotation
+            // ENTRANCE ANIMATION: From TOP (y=12) to Resting (-2.5) with perfectly synced spin and flip
+            const animDuration = 5.0; // Slower, more dramatic entrance
+            const animEase = "power3.out"; // Smooth deceleration for landing
+
             const entranceTl = gsap.timeline();
 
+            // 1. Fall into position
             entranceTl.from(pivotGroup.position, {
-                y: 10,
-                duration: 2.5,
-                ease: "power3.out"
+                y: 12,
+                duration: animDuration,
+                ease: animEase
+            }, 0);
+
+            // 2. Spin (Z-axis) - Multiple revolutions, synced
+            entranceTl.from(pivotGroup.rotation, {
+                z: -Math.PI * 6,
+                duration: animDuration,
+                ease: animEase
             }, 0);
 
             entranceTl.from(pivotGroup.rotation, {
-                z: -Math.PI / 2, // Start tilted 90 degrees
-                duration: 2.5,
-                ease: "power3.out"
+                x: -Math.PI / 2,
+                duration: animDuration,
+                ease: animEase
+            }, 0);
+
+            // --- IDLE ANIMATION (Float & Sway) ---
+            // Starts after entrance finishes (animDuration)
+            const idleTl = gsap.timeline({
+                repeat: -1,
+                yoyo: true,
+                delay: animDuration, // Wait for entrance to finish
+                defaults: { ease: "sine.inOut", duration: 3 }
+            });
+
+            // Float up/down
+            idleTl.to(pivotGroup.position, {
+                y: "+=0.4",
+            }, 0);
+
+            // Gentle Sway
+            idleTl.to(pivotGroup.rotation, {
+                z: "+=0.05", // Slight tilt
+                x: "+=0.05", // Slight nod
             }, 0);
 
 
