@@ -110,6 +110,43 @@ const { title } = Astro.props;
                 },
                 1.0,
             );
+
+            // 3. Background Transition (Info Section)
+            // Fade out glow and move hexagons
+            const bgTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#info-section", // Target the info-section ID physically in the DOM
+                    start: "top 80%", // Start earlier to catch the scroll
+                    end: "center center",
+                    scrub: 1,
+                },
+            });
+
+            // Fade out the main glow
+            // immediateRender: false prevents GSAP from recording the initial '0' value before entrance finishes
+            bgTl.to(
+                "#glow-1",
+                {
+                    opacity: 0,
+                    duration: 1,
+                    ease: "power1.out",
+                    immediateRender: false,
+                },
+                0,
+            );
+
+            // Move Hexagons - Dynamic swapping positions
+            bgTl.to(
+                ".hex-4",
+                {
+                    x: "-50vw",
+                    y: "40vh",
+                    rotation: -90,
+                    scale: 1.5,
+                    ease: "none",
+                },
+                0,
+            );
         </script>
     </body>
 
