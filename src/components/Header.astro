@@ -1,5 +1,4 @@
 ---
-import { SITE_TITLE } from "../consts"; // I will define this or remove if consts.ts doesn't exist. Since it doesn't, I will define it locally.
 const title = "Vibestick";
 
 const links = [
@@ -40,7 +39,7 @@ const { pathname } = Astro.url;
                         <a
                             href={link.href}
                             class:list={[
-                                "text-sm font-medium transition-colors relative py-1",
+                                "text-sm font-light uppercase transition-colors relative py-1",
                                 isActive
                                     ? "text-white"
                                     : "text-muted hover:text-white",
