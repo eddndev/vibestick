@@ -61,13 +61,15 @@ export const initStickerScene = (containerId: string) => {
 
             // --- 1. HIERARCHY SETUP ---
             // Create nested groups to separate animation concerns and avoid conflicts
-            // Structure: Scene -> scrollGroup -> floatGroup -> entranceGroup -> Model
+            // Structure: Scene -> scrollGroup -> labGroup -> floatGroup -> entranceGroup -> Model
             const scrollGroup = new THREE.Group(); // Handles Scroll movement (Hero -> Info)
+            const labGroup = new THREE.Group();    // Handles Lab Section movement (Info -> Lab)
             const floatGroup = new THREE.Group();  // Handles Idle floating/swaying
             const entranceGroup = new THREE.Group(); // Handles initial Entrance drop/spin
 
             scene.add(scrollGroup);
-            scrollGroup.add(floatGroup);
+            scrollGroup.add(labGroup);
+            labGroup.add(floatGroup);
             floatGroup.add(entranceGroup);
             entranceGroup.add(sceneModel);
 
@@ -160,6 +162,9 @@ export const initStickerScene = (containerId: string) => {
                 z: THREE.MathUtils.degToRad(20), // Slight dynamic angle
                 ease: "power2.inOut"
             }, 0);
+
+
+
         },
         undefined,
         (error: any) => {
