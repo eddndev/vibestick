@@ -92,17 +92,7 @@ export const initStickerScene = (containerId: string) => {
                 ease: "power3.out"
             }, 0);
 
-            // Scroll Trigger: Scene Y Rotation
-            gsap.to(pivotGroup.rotation, {
-                scrollTrigger: {
-                    trigger: "body",
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1,
-                },
-                y: Math.PI * 2,
-                ease: "none",
-            });
+
         },
         undefined,
         (error: any) => {
