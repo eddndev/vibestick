@@ -6,22 +6,19 @@
     id="hero"
     class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
 >
-    <!-- Background Elements -->
-    <div class="absolute inset-0 z-0 bg-void">
+    <!-- Background Elements (optional, can be kept for hero specific styling or removed) -->
+    <div class="absolute inset-0 z-0 bg-void/10">
+        <!-- Reduced opacity to see canvas if needed, or remove bg-void to be transparent -->
         <div
             class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[120px] rounded-full animate-pulse-slow"
         >
         </div>
-        <div
-            class="absolute top-0 right-0 w-[400px] h-[400px] bg-secondary/10 blur-[100px] rounded-full"
-        >
-        </div>
     </div>
 
-    <!-- 3D Scene Container -->
+    <!-- 3D Scene Container (Fixed Background) -->
     <div
         id="canvas-container"
-        class="absolute inset-0 z-10 w-full h-full pointer-events-none"
+        class="fixed inset-0 z-0 w-full h-full pointer-events-none"
     >
     </div>
 
@@ -89,7 +86,7 @@
     import * as THREE from "three";
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
-    import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+    import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"; // Added .js extension back
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -137,8 +134,19 @@
         scene.add(pointLight);
 
         const spotLight = new THREE.SpotLight(0x7e22ce, 2); // Primary color tint
-        spotLight.position.set(-5, 0, 5);
+        spotLight.position.set(-5, 5, 20); // Moved to be more frontal/top-left
         scene.add(spotLight);
+
+        // Rim Light (Back) - Creates a nice outline/halo
+        const rimLight = new THREE.SpotLight(0x4f46e5, 5); // Secondary color
+        rimLight.position.set(0, 5, -10);
+        rimLight.lookAt(0, 0, 0);
+        scene.add(rimLight);
+
+        // Fill Light (Side-Front) - Softens shadows
+        const fillLight = new THREE.DirectionalLight(0xffffff, 1);
+        fillLight.position.set(5, 0, 5);
+        scene.add(fillLight);
 
         // Load GLB Model
         let model: THREE.Group | null = null;
@@ -146,21 +154,29 @@
 
         loader.load(
             "/assets/models/sticker.glb",
-            (gltf) => {
-                model = gltf.scene;
+            (gltf: any) => {
+                const sceneModel = gltf.scene; // Use local variable sceneModel
+                model = sceneModel; // Keep reference for animation loop
 
                 // Center the model
-                const box = new THREE.Box3().setFromObject(model);
+                const box = new THREE.Box3().setFromObject(sceneModel);
                 const center = box.getCenter(new THREE.Vector3());
-                model.position.sub(center);
+                sceneModel.position.sub(center);
+
+                // Orientation: Top face facing front
+                // Assuming Top is +Y, we rotate X by 90 deg to point it at Camera (+Z)
+                sceneModel.rotation.x = Math.PI / 2;
+
+                // Rotate -120 degrees (left) to correct texture alignment
+                sceneModel.rotation.y = THREE.MathUtils.degToRad(-120);
 
                 // Scale if necessary (adjust this based on your model size)
                 // model.scale.set(2, 2, 2);
 
-                scene.add(model);
+                scene.add(sceneModel);
 
                 // Initial animation pop
-                gsap.from(model.scale, {
+                gsap.from(sceneModel.scale, {
                     x: 0,
                     y: 0,
                     z: 0,
@@ -168,21 +184,23 @@
                     ease: "elastic.out(1, 0.5)",
                 });
 
-                // Scroll Trigger rotation
-                gsap.to(model.rotation, {
+                // Scroll Trigger placeholder (Waiting for Scrollytelling instructions)
+                // Currently keeping it pinned or just static
+                /*
+                gsap.to(sceneModel.rotation, { // Changed to sceneModel
                     scrollTrigger: {
                         trigger: "#hero",
                         start: "top top",
                         end: "bottom top",
                         scrub: 1,
                     },
-                    y: Math.PI * 2,
-                    x: Math.PI * 0.5,
+                    y: Math.PI * 2, // Disabled for now
                     ease: "none",
                 });
+                */
             },
             undefined,
-            (error) => {
+            (error: any) => {
                 console.error(
                     "An error happened loading the GLB model:",
                     error,
@@ -204,13 +222,13 @@
             requestAnimationFrame(animate);
 
             if (model) {
-                // Subtle float
-                model.rotation.x += 0.001;
-                model.rotation.y += 0.002;
-
-                // Mouse tilt
-                model.rotation.x += mouseY * 0.1;
-                model.rotation.y += mouseX * 0.1;
+                // Stop idle rotation
+                // model.rotation.x += 0.001;
+                // model.rotation.y += 0.002;
+                // Mouse tilt (subtle)
+                // model.rotation.x = (Math.PI / 2) + (mouseY * 0.1);
+                // model.rotation.y = mouseX * 0.1;
+                // Just keep it steady for now based on user request "que se quede fijo"
             }
 
             renderer.render(scene, camera);
