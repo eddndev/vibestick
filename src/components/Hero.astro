@@ -17,6 +17,17 @@
     <div
         class="absolute top-[15vh] w-full z-10 flex flex-col items-center text-center px-4 pointer-events-auto"
     >
+        <div
+            id="hero-badge"
+            class="mb-6 px-4 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm"
+        >
+            <span
+                class="text-sm font-medium tracking-widest text-white/80 uppercase"
+            >
+                Stickers de Alta Tecnología
+            </span>
+        </div>
+
         <h1
             id="hero-title"
             class="text-4xl md:text-6xl font-black tracking-tight mb-8 uppercase max-w-4xl"
@@ -34,7 +45,7 @@
             class="px-12 py-4 bg-white/10 backdrop-blur-md border border-white/10 hover:border-primary rounded-full transition-colors duration-300"
         >
             <span class="text-white font-light tracking-wide uppercase">
-                Aprender más
+                Ver Colección
             </span>
         </a>
     </div>
@@ -51,6 +62,16 @@
     const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
     });
+
+    tl.from(
+        "#hero-badge",
+        {
+            y: -20,
+            opacity: 0,
+            duration: 1,
+        },
+        1.2,
+    );
 
     tl.from(
         "#hero-title span",

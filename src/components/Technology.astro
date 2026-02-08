@@ -4,9 +4,9 @@
 
 <section
     id="technology"
-    class="min-h-screen flex flex-col items-center justify-center bg-transparent py-20 relative overflow-hidden pointer-events-none"
+    class="min-h-screen flex flex-col items-center justify-center bg-transparent py-20 relative overflow-hidden pointer-events-auto"
 >
-    <!-- Content hidden for scrollytelling preview
+    <!-- Content revealed for scrollytelling -->
     <div class="container mx-auto px-4 z-10">
         <div class="text-center mb-16">
             <h2
@@ -27,12 +27,26 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div
-                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10"
+                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10 group"
             >
                 <div
-                    class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 text-3xl"
+                    class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 text-3xl group-hover:scale-110 transition-transform duration-300"
                 >
-                    ☀️
+                    <!-- Sun Icon -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-8 w-8 text-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                        ></path>
+                    </svg>
                 </div>
                 <h3 class="text-xl font-bold mb-2">Activación Solar</h3>
                 <p class="text-muted">
@@ -42,13 +56,26 @@
             </div>
 
             <div
-                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10"
-                style="transition-delay: 100ms;"
+                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10 group"
             >
                 <div
-                    class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mb-6 text-3xl"
+                    class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mb-6 text-3xl group-hover:scale-110 transition-transform duration-300"
                 >
-                    ⚛️
+                    <!-- Molecule Icon -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-8 w-8 text-secondary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                        ></path>
+                    </svg>
                 </div>
                 <h3 class="text-xl font-bold mb-2">Reacción Química</h3>
                 <p class="text-muted">
@@ -58,13 +85,26 @@
             </div>
 
             <div
-                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10"
-                style="transition-delay: 200ms;"
+                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10 group"
             >
                 <div
-                    class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-3xl"
+                    class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-3xl group-hover:scale-110 transition-transform duration-300"
                 >
-                    🍃
+                    <!-- Leaf Icon -->
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-8 w-8 text-green-400"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+                        ></path>
+                    </svg>
                 </div>
                 <h3 class="text-xl font-bold mb-2">Aire Limpio</h3>
                 <p class="text-muted">
@@ -74,15 +114,12 @@
             </div>
         </div>
     </div>
-    -->
 
-    <!-- Decorative Background -->
-    <!--
+    <!-- Decorative Gradient -->
     <div
-        class="absolute top-1/2 left-0 w-full h-full bg-gradient-to-t from-void to-transparent opacity-50 pointer-events-none"
+        class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-primary/5 to-transparent pointer-events-none"
     >
     </div>
-    -->
 </section>
 
 <script>
@@ -91,20 +128,37 @@
 
     gsap.registerPlugin(ScrollTrigger);
 
+    // Initial state set in CSS classes (opacity-0 translate-y-10) to avoid FOUC
+
     const tls = gsap.timeline({
         scrollTrigger: {
             trigger: "#technology",
-            start: "top 80%",
+            start: "top 70%", // Start earlier
             end: "bottom 20%",
             toggleActions: "play none none reverse",
         },
     });
 
-    tls.to(".tech-title", { opacity: 1, y: 0, duration: 0.8 })
-        .to(".tech-text", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+    tls.to(".tech-title", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+    })
+        .to(
+            ".tech-text",
+            { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" },
+            "-=0.6",
+        )
         .to(
             ".tech-card",
-            { opacity: 1, y: 0, duration: 0.8, stagger: 0.2 },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                stagger: 0.2,
+                ease: "power3.out",
+            },
             "-=0.6",
         );
 </script>
