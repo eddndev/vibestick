@@ -52,6 +52,7 @@ export const initStickerScene = (containerId: string) => {
 
     // Load GLB Model
     let model: THREE.Group | null = null;
+    let particleSystem: THREE.Points | null = null;
     const loader = new GLTFLoader();
 
     loader.load(
@@ -59,17 +60,20 @@ export const initStickerScene = (containerId: string) => {
         (gltf: any) => {
             const sceneModel = gltf.scene;
 
+
             // --- 1. HIERARCHY SETUP ---
             // Create nested groups to separate animation concerns and avoid conflicts
-            // Structure: Scene -> scrollGroup -> labGroup -> floatGroup -> entranceGroup -> Model
+            // Structure: Scene -> scrollGroup -> labGroup -> exitGroup -> floatGroup -> entranceGroup -> Model
             const scrollGroup = new THREE.Group(); // Handles Scroll movement (Hero -> Info)
             const labGroup = new THREE.Group();    // Handles Lab Section movement (Info -> Lab)
+            const exitGroup = new THREE.Group();   // Handles Exit movement (Lab -> Exit)
             const floatGroup = new THREE.Group();  // Handles Idle floating/swaying
             const entranceGroup = new THREE.Group(); // Handles initial Entrance drop/spin
 
             scene.add(scrollGroup);
             scrollGroup.add(labGroup);
-            labGroup.add(floatGroup);
+            labGroup.add(exitGroup);
+            exitGroup.add(floatGroup);
             floatGroup.add(entranceGroup);
             entranceGroup.add(sceneModel);
 
@@ -188,6 +192,9 @@ export const initStickerScene = (containerId: string) => {
             const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
             labGroup.add(particlesMesh);
 
+            // Expose for animation loop
+            particleSystem = particlesMesh;
+
 
             // --- LAB ANIMATION (Info -> Lab Section) ---
             const labTl = gsap.timeline({
@@ -231,6 +238,48 @@ export const initStickerScene = (containerId: string) => {
             }, 0);
 
 
+            // --- EXIT ANIMATION (Lab -> Exit Section) ---
+            // Sticker flies away and particles disperse
+            const exitTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#exit-section",
+                    start: "top bottom",
+                    end: "center center",
+                    scrub: 1,
+                    immediateRender: false,
+                }
+            });
+
+            // Particles Disperse/Fade
+            exitTl.to(particlesMaterial, {
+                opacity: 0,
+                size: 0, // Shrink points
+                duration: 0.5,
+                ease: "power1.out"
+            }, 0);
+
+            // Sticker Departure
+            // Fly up and scale down to vanish
+            exitTl.to(exitGroup.position, {
+                y: 5,
+                z: -5,
+                ease: "power2.in"
+            }, 0);
+
+            exitTl.to(exitGroup.scale, {
+                x: 0,
+                y: 0,
+                z: 0,
+                ease: "power2.in"
+            }, 0);
+
+            // Spin on exit for style
+            exitTl.to(exitGroup.rotation, {
+                y: THREE.MathUtils.degToRad(180),
+                ease: "power2.in"
+            }, 0);
+
+
 
         },
         undefined,
@@ -267,6 +316,13 @@ export const initStickerScene = (containerId: string) => {
         if (model) {
             // model.rotation.x += (mouseY * 0.05); // subtle interaction
             // model.rotation.y += (mouseX * 0.05);
+        }
+
+        // Interactive Particles (Lab Section)
+        if (particleSystem) {
+            // Respond to mouse movement on X and Z axes (Y is animated by GSAP)
+            particleSystem.rotation.x = mouseY * 0.8;
+            particleSystem.rotation.z = mouseX * 0.8;
         }
 
         renderer.render(scene, camera);

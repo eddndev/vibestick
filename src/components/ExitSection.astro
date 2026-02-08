@@ -1,0 +1,38 @@
+---
+
+---
+
+<section
+    id="exit-section"
+    class="relative w-full h-[80vh] flex items-center justify-center pointer-events-none"
+>
+    <!-- Blurred Backdrop for Exit Effect -->
+    <div
+        class="absolute inset-0 backdrop-blur-md bg-black/20 z-0 mask-gradient-b"
+    >
+    </div>
+
+    <!-- Optional: Subtle text or just empty as requested -->
+    <div class="relative z-10 text-center opacity-50">
+        <!-- Empty for now -->
+    </div>
+</section>
+
+<style>
+    .mask-gradient-b {
+        mask-image: linear-gradient(
+            to bottom,
+            transparent,
+            black 20%,
+            black 80%,
+            transparent
+        );
+        -webkit-mask-image: linear-gradient(
+            to bottom,
+            transparent,
+            black 20%,
+            black 80%,
+            transparent
+        );
+    }
+</style>
