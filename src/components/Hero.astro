@@ -1,0 +1,182 @@
+---
+
+---
+
+<section
+    id="hero"
+    class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
+>
+    <!-- Background Elements -->
+    <div class="absolute inset-0 z-0 bg-void">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 blur-[120px] rounded-full animate-pulse-slow"
+        >
+        </div>
+        <div
+            class="absolute top-0 right-0 w-[400px] h-[400px] bg-secondary/10 blur-[100px] rounded-full"
+        >
+        </div>
+    </div>
+
+    <!-- 3D Scene Container -->
+    <div
+        id="canvas-container"
+        class="absolute inset-0 z-10 w-full h-full pointer-events-none"
+    >
+    </div>
+
+    <!-- Content -->
+    <div
+        class="relative z-20 text-center px-4 max-w-4xl mx-auto flex flex-col items-center gap-6"
+    >
+        <h1
+            class="text-6xl md:text-8xl font-bold tracking-tighter leading-tight opacity-0 translate-y-10 hero-text"
+        >
+            <span
+                class="text-transparent bg-clip-text bg-gradient-to-br from-white to-white/50"
+                >Stickers</span
+            >
+            <br />
+            <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
+                >que respiran</span
+            >
+        </h1>
+
+        <p
+            class="text-xl md:text-2xl text-muted max-w-2xl opacity-0 translate-y-10 hero-text"
+        >
+            Tecnología fotocatalítica que transforma el aire urbano. <br />
+            <span class="text-primary font-semibold">Estilo que purifica.</span>
+        </p>
+
+        <div class="flex gap-4 mt-4 opacity-0 translate-y-10 hero-text">
+            <a
+                href="#products"
+                class="px-8 py-4 rounded-full bg-white text-primary font-bold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all shadow-xl shadow-white/10"
+            >
+                Ver Colección
+            </a>
+            <a
+                href="#technology"
+                class="px-8 py-4 rounded-full border border-white/20 hover:bg-white/5 backdrop-blur-md text-white font-medium text-lg transition-all"
+            >
+                La Tecnología
+            </a>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce z-20 opacity-0 hero-text"
+    >
+        <svg
+            class="w-6 h-6 text-muted"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+    </div>
+</section>
+
+<script>
+    import * as THREE from "three";
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animation Intro
+    gsap.to(".hero-text", {
+        y: 0,
+        opacity: 1,
+        duration: 1.2,
+        stagger: 0.2,
+        ease: "power3.out",
+        delay: 0.5,
+    });
+
+    // 3D Scene Setup
+    const init3D = () => {
+        const container = document.getElementById("canvas-container");
+        if (!container) return;
+
+        const scene = new THREE.Scene();
+
+        // Camera
+        const camera = new THREE.PerspectiveCamera(
+            75,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            1000,
+        );
+        camera.position.z = 5;
+
+        // Renderer
+        const renderer = new THREE.WebGLRenderer({
+            alpha: true,
+            antialias: true,
+        });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Perf optimization
+        container.appendChild(renderer.domElement);
+
+        // Geometry (Placeholder for Sticker)
+        const geometry = new THREE.IcosahedronGeometry(1.5, 0);
+        const material = new THREE.MeshNormalMaterial({ wireframe: true });
+        // We will replace this with a better shader or texture later
+
+        const shape = new THREE.Mesh(geometry, material);
+        scene.add(shape);
+
+        // Mouse Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+
+        window.addEventListener("mousemove", (e) => {
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+        });
+
+        // Animation Loop
+        const animate = () => {
+            requestAnimationFrame(animate);
+
+            // Rotation based on scroll and mouse
+            shape.rotation.x += 0.002 + mouseY;
+            shape.rotation.y += 0.003 + mouseX;
+
+            renderer.render(scene, camera);
+        };
+
+        animate();
+
+        // Scroll Trigger for the 3D Object
+        gsap.to(shape.rotation, {
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 1,
+            },
+            y: Math.PI * 2,
+            ease: "none",
+        });
+
+        // Resize Handler
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    };
+
+    // Run 3D only on client
+    init3D();
+</script>

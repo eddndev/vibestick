@@ -13,14 +13,22 @@ const { title } = Astro.props;
 <html lang="es" class="scroll-smooth">
     <head>
         <meta charset="UTF-8" />
-        <meta
-            name="description"
-            content="Vibe Stick - Tecnología purificadora de aire"
-        />
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
         <title>{title}</title>
+        <meta
+            name="description"
+            content="Stickers que respiran. Tecnología fotocatalítica para un aire más limpio."
+        />
+
+        <!-- Google Fonts: Outfit -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap"
+            rel="stylesheet"
+        />
 
         <!-- Script to prevent FOUC (Flash of Unstyled Content) -->
         <script is:inline>
