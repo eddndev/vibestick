@@ -59,70 +59,107 @@ export const initStickerScene = (containerId: string) => {
         (gltf: any) => {
             const sceneModel = gltf.scene;
 
-            const pivotGroup = new THREE.Group();
-            scene.add(pivotGroup);
-            pivotGroup.add(sceneModel);
+            // --- 1. HIERARCHY SETUP ---
+            // Create nested groups to separate animation concerns and avoid conflicts
+            // Structure: Scene -> scrollGroup -> floatGroup -> entranceGroup -> Model
+            const scrollGroup = new THREE.Group(); // Handles Scroll movement (Hero -> Info)
+            const floatGroup = new THREE.Group();  // Handles Idle floating/swaying
+            const entranceGroup = new THREE.Group(); // Handles initial Entrance drop/spin
 
-            model = pivotGroup;
+            scene.add(scrollGroup);
+            scrollGroup.add(floatGroup);
+            floatGroup.add(entranceGroup);
+            entranceGroup.add(sceneModel);
 
+            model = scrollGroup; // Reference for interactive tilt (optional)
+
+            // Center the model geometry
             const box = new THREE.Box3().setFromObject(sceneModel);
             const center = box.getCenter(new THREE.Vector3());
             sceneModel.position.sub(center);
 
-            // Updated Scale & Orientation
-            sceneModel.scale.set(2.5, 2.5, 2.5); // Huge scale as requested
+            // --- 2. BASE POSE ---
+            // Set the fundamental orientation and scale of the model
+            sceneModel.scale.set(2.5, 2.5, 2.5);
             sceneModel.rotation.x = Math.PI / 2;
             sceneModel.rotation.y = THREE.MathUtils.degToRad(-120);
 
-            // Resting Position (Bottom half)
-            pivotGroup.position.y = -2.5;
+            // Set Initial Global Position (via ScrollGroup)
+            // This is the "Hero" position
+            scrollGroup.position.y = -2.5;
+            scrollGroup.position.x = 0; // Center initially
 
-            // ENTRANCE ANIMATION: From TOP (y=12) to Resting (-2.5) with perfectly synced spin and flip
-            const animDuration = 5.0; // Slower, more dramatic entrance
-            const animEase = "power3.out"; // Smooth deceleration for landing
+            // --- 3. ENTRANCE ANIMATION (Target: entranceGroup) ---
+            const animDuration = 4.0;
+            const animEase = "power3.out";
 
             const entranceTl = gsap.timeline();
 
-            // 1. Fall into position
-            entranceTl.from(pivotGroup.position, {
-                y: 12,
+            // Fall from top (relative y)
+            entranceTl.from(entranceGroup.position, {
+                y: 15,
                 duration: animDuration,
                 ease: animEase
             }, 0);
 
-            // 2. Spin (Z-axis) - Multiple revolutions, synced
-            entranceTl.from(pivotGroup.rotation, {
-                z: -Math.PI * 12,
+            // Spin Entry
+            entranceTl.from(entranceGroup.rotation, {
+                z: -Math.PI * 4, // Spin around Z
+                x: -Math.PI / 4, // Flip
                 duration: animDuration,
                 ease: animEase
             }, 0);
 
-            entranceTl.from(pivotGroup.rotation, {
-                x: -Math.PI / 2,
-                duration: animDuration,
-                ease: animEase
-            }, 0);
 
-            // --- IDLE ANIMATION (Float & Sway) ---
-            // Starts after entrance finishes (animDuration)
+            // --- 4. IDLE ANIMATION (Target: floatGroup) ---
+            // Continuous gentle movement
+            // Starts immediately but blends nicely since it targets a different group
             const idleTl = gsap.timeline({
                 repeat: -1,
                 yoyo: true,
-                delay: animDuration, // Wait for entrance to finish
-                defaults: { ease: "sine.inOut", duration: 3 }
+                defaults: { ease: "sine.inOut", duration: 4 }
             });
 
             // Float up/down
-            idleTl.to(pivotGroup.position, {
-                y: "+=0.1",
+            idleTl.to(floatGroup.position, {
+                y: 0.25, // Move up slightly
             }, 0);
 
             // Gentle Sway
-            idleTl.to(pivotGroup.rotation, {
-                x: "+=0.1", // Slight nod
+            idleTl.to(floatGroup.rotation, {
+                x: 0.1, // Slight tilt
+                z: -0.05, // Slight roll
             }, 0);
 
 
+            // --- 5. SCROLL ANIMATION (Target: scrollGroup) ---
+            // Transitions from Hero to Info Section
+            const scrollTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: "#info-section",
+                    start: "top bottom",
+                    end: "center center",
+                    scrub: 1.5,
+                    immediateRender: false,
+                }
+            });
+
+            // Move Left
+            scrollTl.to(scrollGroup.position, {
+                x: -3.5, // Move to left side
+                y: 0, // Move up slightly
+                ease: "power2.inOut"
+            }, 0);
+
+            // Rotate to Profile View
+            // We rotate the Wrapper Group, so it affects everything inside
+            // Adjust these values to get the perfect "wheel" profile view
+            scrollTl.to(scrollGroup.rotation, {
+                y: THREE.MathUtils.degToRad(30), // Rotate to side profile
+                x: THREE.MathUtils.degToRad(-20), // Keep it level
+                z: THREE.MathUtils.degToRad(20), // Slight dynamic angle
+                ease: "power2.inOut"
+            }, 0);
         },
         undefined,
         (error: any) => {
