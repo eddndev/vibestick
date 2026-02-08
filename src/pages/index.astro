@@ -1,23 +1,16 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Hero from "../components/Hero.astro";
+import Technology from "../components/Technology.astro";
+import Gallery from "../components/Gallery.astro";
+import Footer from "../components/Footer.astro";
 ---
 
 <Layout title="Vibe Stick - Aire Puro">
 	<main>
 		<Hero />
-		<!-- Sections placeholders -->
-		<section
-			id="technology"
-			class="min-h-screen flex items-center justify-center bg-surface"
-		>
-			<h2 class="text-4xl font-bold">Tecnología (WIP)</h2>
-		</section>
-		<section
-			id="products"
-			class="min-h-screen flex items-center justify-center bg-void"
-		>
-			<h2 class="text-4xl font-bold">Galería (WIP)</h2>
-		</section>
+		<Technology />
+		<Gallery />
 	</main>
+	<Footer />
 </Layout>

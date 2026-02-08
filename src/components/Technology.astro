@@ -1,0 +1,109 @@
+---
+
+---
+
+<section
+    id="technology"
+    class="min-h-screen flex flex-col items-center justify-center bg-surface py-20 relative overflow-hidden"
+>
+    <div class="container mx-auto px-4 z-10">
+        <div class="text-center mb-16">
+            <h2
+                class="text-4xl md:text-5xl font-bold mb-4 tech-title opacity-0 translate-y-10"
+            >
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary"
+                    >Ciencia</span
+                > en cada Sticker
+            </h2>
+            <p
+                class="text-muted max-w-2xl mx-auto text-lg tech-text opacity-0 translate-y-10"
+            >
+                Utilizamos la fotocatálisis para transformar contaminantes en
+                sustancias inocuas.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Card 1 -->
+            <div
+                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10"
+            >
+                <div
+                    class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mb-6 text-3xl"
+                >
+                    ☀️
+                </div>
+                <h3 class="text-xl font-bold mb-2">Activación Solar</h3>
+                <p class="text-muted">
+                    El dióxido de titanio (TiO₂) en nuestros stickers se activa
+                    con la luz solar o artificial.
+                </p>
+            </div>
+
+            <!-- Card 2 -->
+            <div
+                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10"
+                style="transition-delay: 100ms;"
+            >
+                <div
+                    class="w-16 h-16 bg-secondary/20 rounded-full flex items-center justify-center mb-6 text-3xl"
+                >
+                    ⚛️
+                </div>
+                <h3 class="text-xl font-bold mb-2">Reacción Química</h3>
+                <p class="text-muted">
+                    Genera radicales libres que descomponen los óxidos de
+                    nitrógeno (NOx) y compuestos orgánicos volátiles.
+                </p>
+            </div>
+
+            <!-- Card 3 -->
+            <div
+                class="tech-card bg-void/50 backdrop-blur-sm p-8 rounded-2xl border border-white/5 hover:border-primary/50 transition-all opacity-0 translate-y-10"
+                style="transition-delay: 200ms;"
+            >
+                <div
+                    class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6 text-3xl"
+                >
+                    🍃
+                </div>
+                <h3 class="text-xl font-bold mb-2">Aire Limpio</h3>
+                <p class="text-muted">
+                    El resultado es aire más puro, similar al efecto de un árbol
+                    adulto por cada metro cuadrado.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decorative Background -->
+    <div
+        class="absolute top-1/2 left-0 w-full h-full bg-gradient-to-t from-void to-transparent opacity-50 pointer-events-none"
+    >
+    </div>
+</section>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tls = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#technology",
+            start: "top 80%",
+            end: "bottom 20%",
+            toggleActions: "play none none reverse",
+        },
+    });
+
+    tls.to(".tech-title", { opacity: 1, y: 0, duration: 0.8 })
+        .to(".tech-text", { opacity: 1, y: 0, duration: 0.8 }, "-=0.6")
+        .to(
+            ".tech-card",
+            { opacity: 1, y: 0, duration: 0.8, stagger: 0.2 },
+            "-=0.6",
+        );
+</script>
