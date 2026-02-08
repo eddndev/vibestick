@@ -89,6 +89,7 @@
     import * as THREE from "three";
     import gsap from "gsap";
     import { ScrollTrigger } from "gsap/ScrollTrigger";
+    import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
     gsap.registerPlugin(ScrollTrigger);
 
@@ -127,47 +128,95 @@
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Perf optimization
         container.appendChild(renderer.domElement);
 
-        // Geometry (Placeholder for Sticker)
-        const geometry = new THREE.IcosahedronGeometry(1.5, 0);
-        const material = new THREE.MeshNormalMaterial({ wireframe: true });
-        // We will replace this with a better shader or texture later
+        // Lights
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
 
-        const shape = new THREE.Mesh(geometry, material);
-        scene.add(shape);
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        const spotLight = new THREE.SpotLight(0x7e22ce, 2); // Primary color tint
+        spotLight.position.set(-5, 0, 5);
+        scene.add(spotLight);
+
+        // Load GLB Model
+        let model: THREE.Group | null = null;
+        const loader = new GLTFLoader();
+
+        loader.load(
+            "/assets/models/sticker.glb",
+            (gltf) => {
+                model = gltf.scene;
+
+                // Center the model
+                const box = new THREE.Box3().setFromObject(model);
+                const center = box.getCenter(new THREE.Vector3());
+                model.position.sub(center);
+
+                // Scale if necessary (adjust this based on your model size)
+                // model.scale.set(2, 2, 2);
+
+                scene.add(model);
+
+                // Initial animation pop
+                gsap.from(model.scale, {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                    duration: 1.5,
+                    ease: "elastic.out(1, 0.5)",
+                });
+
+                // Scroll Trigger rotation
+                gsap.to(model.rotation, {
+                    scrollTrigger: {
+                        trigger: "#hero",
+                        start: "top top",
+                        end: "bottom top",
+                        scrub: 1,
+                    },
+                    y: Math.PI * 2,
+                    x: Math.PI * 0.5,
+                    ease: "none",
+                });
+            },
+            undefined,
+            (error) => {
+                console.error(
+                    "An error happened loading the GLB model:",
+                    error,
+                );
+            },
+        );
 
         // Mouse Interaction
         let mouseX = 0;
         let mouseY = 0;
 
         window.addEventListener("mousemove", (e) => {
-            mouseX = (e.clientX - window.innerWidth / 2) * 0.001;
-            mouseY = (e.clientY - window.innerHeight / 2) * 0.001;
+            mouseX = (e.clientX - window.innerWidth / 2) * 0.0005;
+            mouseY = (e.clientY - window.innerHeight / 2) * 0.0005;
         });
 
         // Animation Loop
         const animate = () => {
             requestAnimationFrame(animate);
 
-            // Rotation based on scroll and mouse
-            shape.rotation.x += 0.002 + mouseY;
-            shape.rotation.y += 0.003 + mouseX;
+            if (model) {
+                // Subtle float
+                model.rotation.x += 0.001;
+                model.rotation.y += 0.002;
+
+                // Mouse tilt
+                model.rotation.x += mouseY * 0.1;
+                model.rotation.y += mouseX * 0.1;
+            }
 
             renderer.render(scene, camera);
         };
 
         animate();
-
-        // Scroll Trigger for the 3D Object
-        gsap.to(shape.rotation, {
-            scrollTrigger: {
-                trigger: "#hero",
-                start: "top top",
-                end: "bottom top",
-                scrub: 1,
-            },
-            y: Math.PI * 2,
-            ease: "none",
-        });
 
         // Resize Handler
         window.addEventListener("resize", () => {
