@@ -2,8 +2,62 @@
 
 ---
 
-<section id="mission-section" class="relative w-full py-32 pointer-events-auto">
-    <div class="container mx-auto px-6 md:px-12">
+<section
+    id="mission-section"
+    class="relative w-full py-32 pointer-events-auto overflow-hidden"
+>
+    <!-- Decorative Background Elements -->
+    <!-- Ambient Glow Orbs -->
+    <div
+        class="mission-glow-1 absolute top-[20%] left-[-10%] w-[40vw] h-[40vw] rounded-full bg-primary/5 blur-[100px] pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-glow-2 absolute bottom-[10%] right-[-10%] w-[35vw] h-[35vw] rounded-full bg-secondary/5 blur-[100px] pointer-events-none opacity-0"
+    >
+    </div>
+
+    <!-- Gradient Accent Lines -->
+    <div
+        class="mission-line-1 absolute top-[15%] left-0 w-[30%] h-[1px] bg-gradient-to-r from-transparent via-primary/20 to-transparent pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-line-2 absolute bottom-[25%] right-0 w-[25%] h-[1px] bg-gradient-to-r from-transparent via-secondary/20 to-transparent pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-line-3 absolute top-[50%] right-0 w-[15%] h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent pointer-events-none opacity-0"
+    >
+    </div>
+
+    <!-- Floating Particle Dots -->
+    <div
+        class="mission-dot absolute top-[10%] right-[15%] w-1.5 h-1.5 rounded-full bg-primary/40 pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-dot absolute top-[30%] left-[8%] w-1 h-1 rounded-full bg-secondary/40 pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-dot absolute bottom-[20%] right-[25%] w-2 h-2 rounded-full bg-primary/30 pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-dot absolute top-[60%] left-[20%] w-1 h-1 rounded-full bg-white/20 pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-dot absolute bottom-[35%] left-[40%] w-1.5 h-1.5 rounded-full bg-secondary/30 pointer-events-none opacity-0"
+    >
+    </div>
+    <div
+        class="mission-dot absolute top-[45%] right-[10%] w-1 h-1 rounded-full bg-primary/50 pointer-events-none opacity-0"
+    >
+    </div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
         <!-- Section Header -->
         <div class="text-center mb-20 mission-header opacity-0 translate-y-10">
             <div class="w-16 h-[2px] bg-primary mx-auto mb-6"></div>
@@ -278,4 +332,77 @@
         },
         "-=0.4",
     );
+
+    // --- Decorative Element Animations (Scroll-Driven) ---
+
+    // Glow orbs: fade in and drift with scrub
+    const decorTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#mission-section",
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 2,
+        },
+    });
+
+    // Glow 1: drift from left to center-left
+    decorTl.fromTo(
+        ".mission-glow-1",
+        { opacity: 0, x: "-20%" },
+        { opacity: 1, x: "10%", ease: "none" },
+    );
+
+    // Glow 2: drift from right to center-right
+    decorTl.fromTo(
+        ".mission-glow-2",
+        { opacity: 0, x: "20%" },
+        { opacity: 1, x: "-10%", ease: "none" },
+        0,
+    );
+
+    // Lines: slide in from edges
+    decorTl.fromTo(
+        ".mission-line-1",
+        { opacity: 0, x: "-100%" },
+        { opacity: 1, x: "0%", ease: "power1.out" },
+        0.1,
+    );
+
+    decorTl.fromTo(
+        ".mission-line-2",
+        { opacity: 0, x: "100%" },
+        { opacity: 1, x: "0%", ease: "power1.out" },
+        0.2,
+    );
+
+    decorTl.fromTo(
+        ".mission-line-3",
+        { opacity: 0, x: "100%" },
+        { opacity: 1, x: "0%", ease: "power1.out" },
+        0.3,
+    );
+
+    // Floating dots: parallax drift with stagger
+    gsap.utils.toArray(".mission-dot").forEach((dot, i) => {
+        const el = dot as HTMLElement;
+        const direction = i % 2 === 0 ? 1 : -1;
+        gsap.fromTo(
+            el,
+            {
+                opacity: 0,
+                y: 40 * direction,
+            },
+            {
+                opacity: 1,
+                y: -40 * direction,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: "#mission-section",
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1 + i * 0.3,
+                },
+            },
+        );
+    });
 </script>

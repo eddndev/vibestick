@@ -155,4 +155,43 @@ export const initBackgroundAnimations = () => {
         },
         0,
     );
+
+
+    // --- Mission Section Background Animation ---
+    // Hexagons spread to opposite corners, framing the content diagonally
+    const missionBgTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#mission-section",
+            start: "top bottom",
+            end: "center center",
+            scrub: 1,
+            immediateRender: false,
+        },
+    });
+
+    // Hex 2 -> Top right corner
+    missionBgTl.to(
+        ".hex-2-wrap",
+        {
+            x: "35vw",
+            y: "-30vh",
+            rotation: 1080,
+            scale: 0.6,
+            ease: "power2.inOut",
+        },
+        0,
+    );
+
+    // Hex 4 -> Bottom left corner
+    missionBgTl.to(
+        ".hex-4-wrap",
+        {
+            x: "-35vw",
+            y: "30vh",
+            rotation: -1080,
+            scale: 0.4,
+            ease: "power2.inOut",
+        },
+        0,
+    );
 };
