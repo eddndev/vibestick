@@ -9,8 +9,16 @@
     <div
         class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
     >
-        <!-- Left Side: Empty for 3D Model/Particles -->
-        <div class="hidden md:block"></div>
+        <!-- Left Side: Tech Illustration -->
+        <div
+            class="hidden md:flex items-center justify-center tech-image opacity-0 translate-y-10"
+        >
+            <img
+                src="/assets/images/tech-illustration.png"
+                alt="Photocatalytic Technology Visualization"
+                class="w-full max-w-md object-contain"
+            />
+        </div>
 
         <!-- Right Side: Tech Content -->
         <div class="flex flex-col gap-8 tech-content opacity-0 translate-y-10">
@@ -120,10 +128,25 @@
         },
     });
 
-    tl.to(".tech-content", {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: "power3.out",
-    });
+    tl.to(
+        ".tech-content",
+        {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+        },
+        0,
+    );
+
+    tl.to(
+        ".tech-image",
+        {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+        },
+        0,
+    );
 </script>
