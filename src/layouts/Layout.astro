@@ -46,17 +46,6 @@ const { title } = Astro.props;
         <!-- Geometric Background -->
         <Hexagons />
 
-        <!-- Global Noise Texture (Background) - Desktop only, too expensive on mobile -->
-        <div
-            class="hidden md:block fixed inset-0 z-0 pointer-events-none opacity-[0.8] mix-blend-overlay"
-        >
-            <div
-                class="absolute inset-0 bg-repeat w-full h-full animate-noise"
-                style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.5%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3CfeColorMatrix type=%22saturate%22 values=%220%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"
-            >
-            </div>
-        </div>
-
         <main class="relative z-10">
             <slot />
         </main>
@@ -95,47 +84,6 @@ const { title } = Astro.props;
         }
         .lenis.lenis-scrolling iframe {
             pointer-events: none;
-        }
-
-        /* Noise Animation */
-        @keyframes noise-shift {
-            0% {
-                background-position: 0px 0px;
-            }
-            10% {
-                background-position: -5% -5%;
-            }
-            20% {
-                background-position: -10% 5%;
-            }
-            30% {
-                background-position: 5% -10%;
-            }
-            40% {
-                background-position: -5% 15%;
-            }
-            50% {
-                background-position: -10% 5%;
-            }
-            60% {
-                background-position: 15% 0px;
-            }
-            70% {
-                background-position: 0px 10%;
-            }
-            80% {
-                background-position: -15% 0px;
-            }
-            90% {
-                background-position: 10% 5%;
-            }
-            100% {
-                background-position: 5% 0px;
-            }
-        }
-
-        .animate-noise {
-            animation: noise-shift 0.2s steps(1) infinite;
         }
     </style>
 </html>
