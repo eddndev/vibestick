@@ -13,17 +13,6 @@
     >
     </div>
 
-    <!-- Mobile Sticker Fallback (Mobile Only) -->
-    <div
-        class="md:hidden fixed inset-0 z-0 w-full h-full pointer-events-none flex items-center justify-center"
-    >
-        <img
-            src="/assets/images/tech-illustration.png"
-            alt="Eheco-Stick"
-            class="mobile-sticker w-[60vw] max-w-[300px] object-contain opacity-0"
-        />
-    </div>
-
     <!-- Hero Content -->
     <div
         class="absolute top-[15vh] w-full z-10 flex flex-col items-center text-center px-4 pointer-events-auto"
@@ -59,11 +48,23 @@
                 Ver Colección
             </span>
         </a>
+
+        <!-- Mobile Sticker (Below CTA, inside hero flow) -->
+        <div class="md:hidden mt-12 mobile-sticker-wrap">
+            <img
+                src="/assets/images/tech-illustration.png"
+                alt="Eheco-Stick"
+                class="mobile-sticker w-[55vw] max-w-[280px] object-contain opacity-0"
+            />
+        </div>
     </div>
 </section>
 
 <script>
     import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
 
     const isMobile = window.innerWidth < 768;
 
@@ -73,23 +74,36 @@
             initStickerScene("canvas-container");
         });
     } else {
-        // Mobile: Animate the PNG sticker
+        // Mobile: Fade in the PNG sticker
         gsap.to(".mobile-sticker", {
-            opacity: 0.8,
+            opacity: 0.9,
             scale: 1,
             duration: 1.5,
-            delay: 0.8,
+            delay: 1.2,
             ease: "power3.out",
         });
 
         // Subtle floating animation
         gsap.to(".mobile-sticker", {
-            y: -10,
+            y: -8,
             duration: 3,
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-            delay: 2,
+            delay: 2.5,
+        });
+
+        // Fade out PNG on scroll (leaves with the hero)
+        gsap.to(".mobile-sticker-wrap", {
+            opacity: 0,
+            y: -30,
+            ease: "power2.in",
+            scrollTrigger: {
+                trigger: "#hero",
+                start: "70% top",
+                end: "bottom top",
+                scrub: 1,
+            },
         });
     }
 
@@ -133,8 +147,6 @@
 <style>
     .mobile-sticker {
         transform: scale(0.9);
-        filter: drop-shadow(
-            0 0 40px rgba(var(--color-primary-rgb, 74, 222, 128), 0.2)
-        );
+        filter: drop-shadow(0 0 30px rgba(74, 222, 128, 0.15));
     }
 </style>
