@@ -5,6 +5,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export const initSmoothScroll = () => {
+    // Lenis smooth scroll is too expensive on mobile — skip it
+    if (window.innerWidth < 768) return null;
+
     const lenis = new Lenis({
         lerp: 0.1,
         smoothWheel: true,
