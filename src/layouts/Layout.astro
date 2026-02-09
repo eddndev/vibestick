@@ -43,6 +43,27 @@ const { title } = Astro.props;
         >
         </div>
 
+        <!-- Mobile Dynamic Lighting (CSS-only, no JS) -->
+        <div
+            class="md:hidden fixed inset-0 z-0 pointer-events-none overflow-hidden"
+        >
+            <!-- Primary glow - drifts slowly top-left to bottom-right -->
+            <div
+                class="mobile-glow mobile-glow-1 absolute w-[70vw] h-[70vw] rounded-full bg-primary/8 blur-[60px]"
+            >
+            </div>
+            <!-- Secondary glow - pulses center-right -->
+            <div
+                class="mobile-glow mobile-glow-2 absolute w-[50vw] h-[50vw] rounded-full bg-secondary/6 blur-[50px]"
+            >
+            </div>
+            <!-- Accent glow - small, faster, top area -->
+            <div
+                class="mobile-glow mobile-glow-3 absolute w-[40vw] h-[40vw] rounded-full bg-cyan-500/5 blur-[40px]"
+            >
+            </div>
+        </div>
+
         <!-- Geometric Background -->
         <Hexagons />
 
@@ -84,6 +105,72 @@ const { title } = Astro.props;
         }
         .lenis.lenis-scrolling iframe {
             pointer-events: none;
+        }
+
+        /* Mobile Dynamic Lighting */
+        .mobile-glow {
+            will-change: transform, opacity;
+            mix-blend-mode: screen;
+        }
+
+        .mobile-glow-1 {
+            top: -10%;
+            left: -20%;
+            animation: glow-drift-1 8s ease-in-out infinite alternate;
+        }
+
+        .mobile-glow-2 {
+            top: 40%;
+            right: -25%;
+            animation: glow-drift-2 12s ease-in-out infinite alternate;
+        }
+
+        .mobile-glow-3 {
+            top: 15%;
+            left: 30%;
+            animation: glow-drift-3 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-drift-1 {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(30vw, 40vh) scale(1.3);
+                opacity: 0.4;
+            }
+        }
+
+        @keyframes glow-drift-2 {
+            0% {
+                transform: translate(0, 0) scale(1.1);
+                opacity: 0.5;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-25vw, -30vh) scale(0.8);
+                opacity: 0.3;
+            }
+        }
+
+        @keyframes glow-drift-3 {
+            0% {
+                transform: translate(0, 0) scale(0.9);
+                opacity: 0.4;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(15vw, 25vh) scale(1.2);
+                opacity: 0.5;
+            }
         }
     </style>
 </html>
