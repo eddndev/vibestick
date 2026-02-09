@@ -4,6 +4,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export const initBackgroundAnimations = () => {
+    const isMobile = window.innerWidth < 768;
+
     // --- Info Section Background Transition ---
     // Fade out glow and move hexagons to center
     const bgTl = gsap.timeline({
@@ -77,6 +79,9 @@ export const initBackgroundAnimations = () => {
         0,
     );
 
+
+    // Skip heavy hexagon scroll-driven animations on mobile
+    if (isMobile) return;
 
     // --- Lab Section Background Animation ---
     // Animate WRAPPERS (not SVGs directly) to avoid conflicts with bgTl

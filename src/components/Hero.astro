@@ -6,11 +6,22 @@
     id="hero"
     class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden"
 >
-    <!-- 3D Scene Container (Fixed Background) -->
+    <!-- 3D Scene Container (Desktop Only) -->
     <div
         id="canvas-container"
-        class="fixed inset-0 z-0 w-full h-full pointer-events-none"
+        class="fixed inset-0 z-0 w-full h-full pointer-events-none hidden md:block"
     >
+    </div>
+
+    <!-- Mobile Sticker Fallback (Mobile Only) -->
+    <div
+        class="md:hidden fixed inset-0 z-0 w-full h-full pointer-events-none flex items-center justify-center"
+    >
+        <img
+            src="/assets/images/tech-illustration.png"
+            alt="Eheco-Stick"
+            class="mobile-sticker w-[60vw] max-w-[300px] object-contain opacity-0"
+        />
     </div>
 
     <!-- Hero Content -->
@@ -52,13 +63,37 @@
 </section>
 
 <script>
-    import { initStickerScene } from "../scripts/sticker-scene";
     import gsap from "gsap";
 
-    // Initialize 3D Scene logic
-    initStickerScene("canvas-container");
+    const isMobile = window.innerWidth < 768;
 
-    // Hero Content Animation
+    if (!isMobile) {
+        // Desktop: Load full 3D scene
+        import("../scripts/sticker-scene").then(({ initStickerScene }) => {
+            initStickerScene("canvas-container");
+        });
+    } else {
+        // Mobile: Animate the PNG sticker
+        gsap.to(".mobile-sticker", {
+            opacity: 0.8,
+            scale: 1,
+            duration: 1.5,
+            delay: 0.8,
+            ease: "power3.out",
+        });
+
+        // Subtle floating animation
+        gsap.to(".mobile-sticker", {
+            y: -10,
+            duration: 3,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+            delay: 2,
+        });
+    }
+
+    // Hero Content Animation (both desktop & mobile)
     const tl = gsap.timeline({
         defaults: { ease: "power3.out" },
     });
@@ -82,7 +117,7 @@
             stagger: 0.1,
         },
         1.5,
-    ); // Start after navbar lands
+    );
 
     tl.from(
         "#hero-cta",
@@ -94,3 +129,12 @@
         "-=0.8",
     );
 </script>
+
+<style>
+    .mobile-sticker {
+        transform: scale(0.9);
+        filter: drop-shadow(
+            0 0 40px rgba(var(--color-primary-rgb, 74, 222, 128), 0.2)
+        );
+    }
+</style>
