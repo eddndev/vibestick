@@ -21,7 +21,6 @@ export const initEntranceAnimations = () => {
     tl.to(
         "#main-header",
         {
-            y: 0,
             opacity: 1,
             duration: 1.5,
             ease: "power4.out",
