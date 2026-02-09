@@ -90,25 +90,25 @@ export const initBackgroundAnimations = () => {
         },
     });
 
-    // Hex 2 Wrapper -> Shift Right & Rotate
+    // Hex 2 Wrapper -> Move LEFT, scale DOWN to ~30vw
     labBgTl.to(
         ".hex-2-wrap",
         {
-            x: "30vw",
-            rotation: 60,
-            scale: 1.2,
+            x: "-13vw",
+            rotation: 360,
+            scale: 0.5,
             ease: "power2.inOut",
         },
         0,
     );
 
-    // Hex 4 Wrapper -> Shift Right & Counter-Rotate
+    // Hex 4 Wrapper -> Move RIGHT, scale UP to ~30vw
     labBgTl.to(
         ".hex-4-wrap",
         {
-            x: "30vw",
-            rotation: -60,
-            scale: 0.8,
+            x: "13vw",
+            rotation: 360,
+            scale: 2,
             ease: "power2.inOut",
         },
         0,
