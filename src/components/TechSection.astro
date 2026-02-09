@@ -1,0 +1,129 @@
+---
+
+---
+
+<section
+    id="tech-section"
+    class="relative w-full min-h-screen flex items-center justify-center pointer-events-auto"
+>
+    <div
+        class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+    >
+        <!-- Left Side: Empty for 3D Model/Particles -->
+        <div class="hidden md:block"></div>
+
+        <!-- Right Side: Tech Content -->
+        <div class="flex flex-col gap-8 tech-content opacity-0 translate-y-10">
+            <div class="w-16 h-[2px] bg-secondary mb-2 block"></div>
+
+            <h2
+                class="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2"
+            >
+                Tecnología<br />
+                <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500"
+                    >que Purifica</span
+                >
+            </h2>
+
+            <p class="text-muted leading-relaxed text-lg">
+                El Eheco-Stick no es solo un accesorio. Es una herramienta
+                diseñada para combatir la contaminación en espacios interiores,
+                utilizando procesos químicos naturales activados por la luz.
+            </p>
+
+            <!-- Acción Fotocatalítica -->
+            <div class="space-y-6">
+                <h3
+                    class="text-2xl md:text-3xl font-bold text-white flex items-center gap-3"
+                >
+                    <span
+                        class="w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"
+                    ></span>
+                    Acción Fotocatalítica
+                </h3>
+
+                <p class="text-muted leading-relaxed">
+                    Gracias a su capa de nanopartículas de Dióxido de Titanio
+                    (TiO₂), el sticker actúa como un purificador constante. Al
+                    recibir luz, genera una reacción que descompone partículas
+                    dañinas en sustancias inofensivas.
+                </p>
+
+                <!-- Features Grid -->
+                <div class="grid grid-cols-1 gap-4">
+                    <div
+                        class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2"
+                    >
+                        <h4 class="text-cyan-400 font-bold uppercase text-sm">
+                            70% Reducción COVs
+                        </h4>
+                        <p class="text-muted text-sm leading-relaxed">
+                            Elimina hasta el 70% de Compuestos Orgánicos
+                            Volátiles (COVs).
+                        </p>
+                    </div>
+                    <div
+                        class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2"
+                    >
+                        <h4 class="text-blue-400 font-bold uppercase text-sm">
+                            Aire Más Limpio
+                        </h4>
+                        <p class="text-muted text-sm leading-relaxed">
+                            Ayuda a reducir malos olores y presencia de ozono en
+                            el aire.
+                        </p>
+                    </div>
+                    <div
+                        class="p-4 rounded-lg bg-white/5 border border-white/10 space-y-2"
+                    >
+                        <h4 class="text-cyan-400 font-bold uppercase text-sm">
+                            12 Meses Activo
+                        </h4>
+                        <p class="text-muted text-sm leading-relaxed">
+                            Mantiene su efectividad activa durante un periodo de
+                            12 meses.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impacto Real (Quote) -->
+            <div
+                class="mt-6 p-6 rounded-lg bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20"
+            >
+                <h3 class="text-sm uppercase tracking-wider text-cyan-400 mb-3">
+                    Impacto Real
+                </h3>
+                <blockquote class="text-white/90 leading-relaxed italic">
+                    "Nuestra misión es empoderar a la comunidad joven para que
+                    cada sticker pegado sea un paso hacia un aire más limpio y
+                    un futuro más sostenible".
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    const tl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#tech-section",
+            start: "top 60%",
+            end: "bottom 40%",
+            toggleActions: "play none none reverse",
+        },
+    });
+
+    tl.to(".tech-content", {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+    });
+</script>

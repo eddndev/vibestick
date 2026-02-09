@@ -113,4 +113,46 @@ export const initBackgroundAnimations = () => {
         },
         0,
     );
+
+
+    // --- Tech Section Background Animation ---
+    // Move hexagons to LEFT side, concentric and rotating
+    const techBgTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#tech-section",
+            start: "top bottom",
+            end: "center center",
+            scrub: 1,
+            immediateRender: false,
+        },
+    });
+
+    // Hex 2 Wrapper -> Move to LEFT, align with container edge
+    // Container max-width: 1280px (xl), left edge at: calc(50vw - 640px)
+    // Position from center: calc(-50vw + 640px) - hex_radius
+    // Hex-2 at scale 0.4 → 24vw effective → ~10.4vw radius
+    techBgTl.to(
+        ".hex-2-wrap",
+        {
+            x: "calc(-50vw + 640px - 10vw)", // Align right edge with container left edge
+            y: 0,
+            rotation: 720,
+            scale: 0.8,
+            ease: "power2.inOut",
+        },
+        0,
+    );
+
+    // Hex 4 Wrapper -> Same position, nested inside
+    techBgTl.to(
+        ".hex-4-wrap",
+        {
+            x: "calc(-50vw + 640px - 10vw)",
+            y: 0,
+            rotation: -720,
+            scale: 0.6,
+            ease: "power2.inOut",
+        },
+        0,
+    );
 };
