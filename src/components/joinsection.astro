@@ -1,0 +1,118 @@
+---
+
+---
+
+<section id="join-section" class="relative w-full py-32 pointer-events-auto bg-void">
+    <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12">
+        
+        <div class="flex flex-col items-center justify-center join-image opacity-0 translate-y-10 md:sticky md:top-24 md:self-start gap-6">
+            <div class="relative p-4 bg-white rounded-2xl shadow-[0_0_50px_rgba(6,182,212,0.3)]">
+                <img 
+                    src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=012345678901234567" 
+                    alt="QR para transferencia" 
+                    class="w-48 h-48 md:w-64 md:h-64 object-contain"
+                />
+            </div>
+            <p class="text-cyan-400 font-mono text-sm uppercase tracking-widest animate-pulse">
+                Escanea para obtener número de cuenta
+            </p>
+        </div>
+
+        <div class="flex flex-col gap-8 join-content opacity-0 translate-y-10">
+            <div class="w-16 h-[2px] bg-secondary mb-2 block"></div>
+
+            <h2 class="text-4xl md:text-5xl font-black uppercase tracking-tight text-white mb-2">
+                Únete con<br />
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">
+                    Nosotros
+                </span>
+            </h2>
+
+            <p class="text-muted leading-relaxed text-lg">
+                Tu apoyo nos permite llevar la tecnología fotocatalítica a más rincones. 
+                Cada contribución se destina directamente a la investigación y distribución de stickers purificadores.
+            </p>
+
+            <div class="p-6 rounded-lg bg-white/5 border border-white/10 space-y-4">
+                <h3 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <span class="w-2 h-2 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500"></span>
+                    Datos de Transferencia
+                </h3>
+                
+                <div class="space-y-2">
+                    <p class="text-muted text-sm uppercase font-bold tracking-tighter">Número de Cuenta / CLAVE</p>
+                    <div class="flex flex-col sm:flex-row items-center gap-4 bg-void/50 p-4 rounded border border-white/5">
+                        <code id="account-number" class="text-xl md:text-2xl font-mono text-cyan-400 tracking-wider">012345678901234567</code>
+                        
+                        <button 
+                            id="copy-btn"
+                            class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white text-xs font-bold uppercase rounded hover:scale-105 transition-all active:opacity-70 flex items-center justify-center gap-2"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                            </svg>
+                            Copiar Cuenta
+                        </button>
+                    </div>
+                    <p id="copy-message" class="text-[10px] text-secondary uppercase font-bold opacity-0 transition-opacity duration-300">
+                        ¡Copiado al portapapeles!
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4">
+                <div class="p-4 rounded-lg bg-white/5 border border-white/10 flex items-start gap-4">
+                    <div class="text-cyan-400 mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h4 class="text-white font-bold text-sm uppercase">Impacto Local</h4>
+                        <p class="text-muted text-xs">Tu aporte financia a la continuación de nuestro proyecto</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    import gsap from "gsap";
+    import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animaciones GSAP
+    const joinTl = gsap.timeline({
+        scrollTrigger: {
+            trigger: "#join-section",
+            start: "top 60%",
+            toggleActions: "play none none reverse",
+        },
+    });
+
+    joinTl.to(".join-content, .join-image", {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power3.out",
+    });
+
+    
+    const btn = document.getElementById("copy-btn");
+    const msg = document.getElementById("copy-message");
+    const account = document.getElementById("account-number")?.innerText;
+
+    btn?.addEventListener("click", () => {
+        if (account) {
+            navigator.clipboard.writeText(account);
+            if (msg) {
+                msg.style.opacity = "1";
+                setTimeout(() => msg.style.opacity = "0", 2000);
+            }
+        }
+    });
+</script>
