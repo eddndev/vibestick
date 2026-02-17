@@ -399,6 +399,135 @@
                 </div>
             </div>
         </div>
+        <!-- Organigrama -->
+        <div class="invest-org opacity-0 translate-y-10 mt-20 max-w-5xl mx-auto">
+            <h3
+                class="text-2xl md:text-3xl font-bold text-white uppercase tracking-tight text-center mb-16"
+            >
+                Nuestro Equipo
+            </h3>
+
+            <div class="flex flex-col items-center gap-0">
+                <!-- Director General -->
+                <div
+                    class="group p-6 rounded-xl bg-gradient-to-br from-primary/10 to-secondary/10 border border-primary/20 hover:border-primary/40 transition-all duration-300 text-center w-64"
+                >
+                    <div
+                        class="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mx-auto mb-3 text-white text-xl font-black"
+                    >
+                        MM
+                    </div>
+                    <h4 class="text-white font-bold text-base uppercase tracking-wide">
+                        Director General
+                    </h4>
+                    <p class="text-muted text-sm mt-1">Moisés Martínez</p>
+                </div>
+
+                <!-- Vertical line from CEO -->
+                <div class="w-[1px] h-10 bg-white/15"></div>
+
+                <!-- Horizontal connector line -->
+                <div class="relative w-full max-w-4xl">
+                    <div
+                        class="absolute top-0 left-[12.5%] right-[12.5%] h-[1px] bg-white/15"
+                    >
+                    </div>
+                </div>
+
+                <!-- 4 Directors -->
+                <div
+                    class="grid grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-4xl"
+                >
+                    <!-- Producción -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-[1px] h-10 bg-white/15"></div>
+                        <div
+                            class="group p-5 rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 transition-all duration-300 text-center w-full"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-3 text-primary text-sm font-bold"
+                            >
+                                JG
+                            </div>
+                            <h4
+                                class="text-white font-bold text-sm uppercase tracking-wide leading-tight"
+                            >
+                                Director de Producción
+                            </h4>
+                            <p class="text-muted text-xs mt-1">
+                                Jhonathan García
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Marketing -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-[1px] h-10 bg-white/15"></div>
+                        <div
+                            class="group p-5 rounded-xl bg-white/5 border border-white/10 hover:border-secondary/40 transition-all duration-300 text-center w-full"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-full bg-secondary/15 flex items-center justify-center mx-auto mb-3 text-secondary text-sm font-bold"
+                            >
+                                YH
+                            </div>
+                            <h4
+                                class="text-white font-bold text-sm uppercase tracking-wide leading-tight"
+                            >
+                                Director de Marketing
+                            </h4>
+                            <p class="text-muted text-xs mt-1">
+                                Yolatl Hidalgo
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Finanzas -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-[1px] h-10 bg-white/15"></div>
+                        <div
+                            class="group p-5 rounded-xl bg-white/5 border border-white/10 hover:border-primary/40 transition-all duration-300 text-center w-full"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-3 text-primary text-sm font-bold"
+                            >
+                                AA
+                            </div>
+                            <h4
+                                class="text-white font-bold text-sm uppercase tracking-wide leading-tight"
+                            >
+                                Directora de Finanzas
+                            </h4>
+                            <p class="text-muted text-xs mt-1">
+                                Alondra Ayala
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Recursos Humanos -->
+                    <div class="flex flex-col items-center">
+                        <div class="w-[1px] h-10 bg-white/15"></div>
+                        <div
+                            class="group p-5 rounded-xl bg-white/5 border border-white/10 hover:border-secondary/40 transition-all duration-300 text-center w-full"
+                        >
+                            <div
+                                class="w-12 h-12 rounded-full bg-secondary/15 flex items-center justify-center mx-auto mb-3 text-secondary text-sm font-bold"
+                            >
+                                TG
+                            </div>
+                            <h4
+                                class="text-white font-bold text-sm uppercase tracking-wide leading-tight"
+                            >
+                                Directora de Recursos Humanos
+                            </h4>
+                            <p class="text-muted text-xs mt-1">
+                                Tania García
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -465,6 +594,18 @@
     // Rendimiento table
     tl.to(
         ".invest-table",
+        {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            ease: "power3.out",
+        },
+        "-=0.4",
+    );
+
+    // Organigrama
+    tl.to(
+        ".invest-org",
         {
             y: 0,
             opacity: 1,
